@@ -38,6 +38,8 @@ void disp_full(uint8_t * disp_data);
 void disp_full_signs(uint8_t * disp_data); 
 void disp_full_icons(uint8_t * disp_data); 
 void scroll_text(uint8_t  * data_string, bool pause); 
+void disp_frame(uint32_t * data_buff); 
+uint16_t get_byte(uint8_t offset, uint32_t  data_32); 
 
 // data to write 
 

@@ -89,7 +89,7 @@ uint8_t rev_byte(uint8_t data_byte){
     int i ; 
     int bit ; 
 
-    for(i=8;i>=0;i--){
+    for(i=7;i>=0;i--){
 
     bit = (1&data_byte); 
     if(bit == 1){
@@ -223,5 +223,44 @@ void scroll_text(uint8_t * data_string, bool pause){
     }
 
 
+}
+
+void disp_frame(uint32_t * data_buff){
+    // data_buff is frame data 8X64 bits
+    int i,j,p ; 
+    //display frame 
+    for(i=8;i>=1;i--){
+     for(j=0;j<4;j++){   
+    shift_packet_no_latch(((i)<<8) | rev_byte(get_byte(j,data_buff[i-1]))) ;
+     }
+     latch();  
+    }
+}
+
+uint16_t get_byte(uint8_t offset, uint32_t data_32){
+    // returns a byte chunk at given offset
+    // offset 3 2 1 0  (display number from left to right)
+    // gives 8 bit data chunk and padds it with zero using typecasting
+    switch(offset){
+        case 0: //mast disp 0 data
+                data_32 &= 0x000000FF ; 
+                return (uint16_t)data_32 ; 
+                break; 
+        case 1: data_32 &= 0x0000FF00 ; 
+                data_32 = data_32 >> 8 ; 
+                return (uint16_t)data_32 ; 
+                break; 
+        case 2: data_32 &= 0x00FF0000 ;
+                data_32 = data_32 >> 16 ;  
+                return (uint16_t)data_32 ; 
+                break; 
+        case 3: data_32 &= 0xFF000000 ;
+                data_32 = data_32 >> 24 ;  
+                return (uint16_t)data_32 ; 
+                break; 
+        default: return (uint16_t)0x00000000 ; 
+                break;         
+    }       
+    
 }
 
