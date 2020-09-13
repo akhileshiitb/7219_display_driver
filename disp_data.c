@@ -1,5 +1,11 @@
 #include<stdint.h>
 
+/*
+Link to generate data 
+
+https://xantorohara.github.io/led-matrix-editor/#
+
+*/
 uint8_t num[10][8] = {{
                   0x3C,
                   0x24,
